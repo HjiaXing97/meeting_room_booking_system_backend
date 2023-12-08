@@ -1,27 +1,38 @@
-/*
-  Warnings:
+-- CreateTable
+CREATE TABLE `User` (
+    `id` INTEGER NOT NULL AUTO_INCREMENT,
+    `username` VARCHAR(191) NOT NULL,
+    `password` VARCHAR(191) NOT NULL,
+    `email` VARCHAR(191) NOT NULL,
+    `nick_name` VARCHAR(191) NOT NULL,
+    `head_pic` VARCHAR(191) NULL,
+    `phone_number` VARCHAR(191) NULL,
+    `is_frozen` BOOLEAN NOT NULL DEFAULT false,
+    `is_Admin` BOOLEAN NOT NULL DEFAULT false,
+    `create_time` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
+    `update_time` DATETIME(3) NOT NULL,
 
-  - You are about to drop the `rolepermissions` table. If the table is not empty, all the data it contains will be lost.
-  - You are about to drop the `userrole` table. If the table is not empty, all the data it contains will be lost.
+    UNIQUE INDEX `User_username_key`(`username`),
+    PRIMARY KEY (`id`)
+) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
-*/
--- DropForeignKey
-ALTER TABLE `rolepermissions` DROP FOREIGN KEY `RolePermissions_permissions_id_fkey`;
+-- CreateTable
+CREATE TABLE `Role` (
+    `id` INTEGER NOT NULL AUTO_INCREMENT,
+    `name` VARCHAR(191) NOT NULL,
+    `create_time` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
+    `update_time` DATETIME(3) NOT NULL,
 
--- DropForeignKey
-ALTER TABLE `rolepermissions` DROP FOREIGN KEY `RolePermissions_role_id_fkey`;
+    UNIQUE INDEX `Role_name_key`(`name`),
+    PRIMARY KEY (`id`)
+) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
--- DropForeignKey
-ALTER TABLE `userrole` DROP FOREIGN KEY `UserRole_role_id_fkey`;
+-- CreateTable
+CREATE TABLE `Permissions` (
+    `id` INTEGER NOT NULL AUTO_INCREMENT,
 
--- DropForeignKey
-ALTER TABLE `userrole` DROP FOREIGN KEY `UserRole_user_id_fkey`;
-
--- DropTable
-DROP TABLE `rolepermissions`;
-
--- DropTable
-DROP TABLE `userrole`;
+    PRIMARY KEY (`id`)
+) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- CreateTable
 CREATE TABLE `Role_Permissions` (

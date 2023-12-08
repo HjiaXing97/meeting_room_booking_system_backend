@@ -1,7 +1,7 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { ValidationPipe } from '@nestjs/common';
-import { HttpExceptionFilter } from './fliter/http-exception.filter';
+import { HttpExceptionFilter } from './filter/http-exception.filter';
 import { SuccessInterceptor } from './interceptor/success.interceptor';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 
@@ -17,6 +17,9 @@ async function bootstrap() {
   // 👈 添加全局管道参数校验
   app.useGlobalPipes(new ValidationPipe());
 
+  //开启跨域
+  app.enableCors();
+
   const config = new DocumentBuilder()
     .setTitle('会议室预定系统')
     .setDescription('接口文档')
@@ -24,6 +27,7 @@ async function bootstrap() {
     .build();
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('docs', app, document);
-  await app.listen(3000);
+  app.setGlobalPrefix('api');
+  await app.listen(3001);
 }
 bootstrap().then();

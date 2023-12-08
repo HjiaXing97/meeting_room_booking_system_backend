@@ -30,7 +30,7 @@ export class LoginGuard implements CanActivate {
   ): boolean | Promise<boolean> | Observable<boolean> {
     const ctx = context.switchToHttp();
     const request = ctx.getRequest();
-    const includesUrl = ['/user/login', '/user/register'];
+    const includesUrl = ['/api/user/login', '/api/user/register'];
     if (includesUrl.includes(request.url)) {
       return true;
     }
