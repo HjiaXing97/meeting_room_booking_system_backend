@@ -11,6 +11,9 @@ export class UserService {
   @Inject(JwtService)
   private readonly jwtService: JwtService;
 
+  /**
+   * @description 用户注册
+   */
   async register(registerUser: any) {
     const user = await this.prisma.user.findUnique({
       where: {
@@ -32,6 +35,9 @@ export class UserService {
     });
   }
 
+  /**
+   * @description 用户登录
+   */
   async login(userLogin: any) {
     const user: any = await this.prisma.user.findUnique({
       where: {
@@ -56,6 +62,9 @@ export class UserService {
     return user;
   }
 
+  /**
+   * @description 获取用户信息
+   */
   async getUserInfo(id: number) {
     const user = await this.prisma.user.findUnique({
       where: {
@@ -68,6 +77,9 @@ export class UserService {
     return user;
   }
 
+  /**
+   * @description 冻结用户
+   */
   async freezeUser(id: number, frozen: number) {
     await this.getUserInfo(id);
     return await this.prisma.user.update({
@@ -76,6 +88,9 @@ export class UserService {
     });
   }
 
+  /**
+   * @description 分页查询用户
+   */
   async getUserList(body: any) {
     const pageNo = Number(body.pageNo);
     const pageSize = Number(body.pageSize);
@@ -91,6 +106,9 @@ export class UserService {
     };
   }
 
+  /**
+   * @description 获取全部用户信息
+   */
   async getAllUserList() {
     return this.prisma.user.findMany({
       where: {
