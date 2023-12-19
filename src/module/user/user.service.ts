@@ -2,6 +2,7 @@ import { HttpException, HttpStatus, Inject, Injectable } from '@nestjs/common';
 import { PrismaService } from '../../prisma/prisma.service';
 import { md5 } from '../../utils/createMd5';
 import { JwtService } from '@nestjs/jwt';
+import formatSearch from '../../utils/formatSearch';
 
 @Injectable()
 export class UserService {
@@ -92,12 +93,13 @@ export class UserService {
    * @description 分页查询用户
    */
   async getUserList(body: any) {
-    const pageNo = Number(body.pageNo);
-    const pageSize = Number(body.pageSize);
+    const { param, pageInfo } = formatSearch(body);
 
     const userList = await this.prisma.user.findMany({
-      skip: (pageNo - 1) * pageSize,
-      take: pageSize
+      ...pageInfo,
+      where: {
+        ...param
+      }
     });
     const total = await this.prisma.user.count();
     return {

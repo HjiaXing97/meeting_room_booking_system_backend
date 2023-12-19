@@ -30,7 +30,7 @@ export class HttpExceptionFilter<T> implements ExceptionFilter {
     }
 
     response.status(statusCode).json({
-      statusCode: statusCode,
+      code: statusCode,
       path: request.path,
       message: message
     });

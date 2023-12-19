@@ -1,6 +1,7 @@
 import { HttpException, HttpStatus, Inject, Injectable } from '@nestjs/common';
 import { MeetingRoomDto } from './dto';
 import { PrismaService } from '../../prisma/prisma.service';
+import formatSearch from '../../utils/formatSearch';
 
 @Injectable()
 export class MeetingRoomService {
@@ -38,16 +39,13 @@ export class MeetingRoomService {
   }
 
   async meetingPageList(body: any) {
-    const pageNo = Number(body.pageNo);
-    const pageSize = Number(body.pageSize);
+    const { param, pageInfo } = formatSearch(body);
 
     const total = await this.prisma.meeting_Room.count();
     const meetingList = await this.prisma.meeting_Room.findMany({
-      skip: (pageNo - 1) * pageSize,
-      take: pageNo,
+      ...pageInfo,
       where: {
-        name: body?.name,
-        location: body?.location
+        ...param
       }
     });
 
