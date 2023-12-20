@@ -67,3 +67,19 @@ model Meeting_Room {
   create_time DateTime @default(now()) //创建时间
   update_time DateTime @updatedAt //更新时间
 }
+
+model dictionary_type {
+  id          Int               @id @default(autoincrement())
+  type_name   String            @unique
+  description String
+  items       dictionary_item[]
+}
+
+model dictionary_item {
+  id          Int              @id @default(autoincrement())
+  key         String
+  value       String
+  description String?
+  type_id     Int?
+  type        dictionary_type? @relation(fields: [type_id], references: [id])
+}
