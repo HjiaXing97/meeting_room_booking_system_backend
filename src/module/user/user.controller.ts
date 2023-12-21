@@ -2,7 +2,6 @@ import {
   Body,
   Controller,
   Get,
-  HttpStatus,
   Inject,
   Param,
   Post,
@@ -10,9 +9,7 @@ import {
 } from '@nestjs/common';
 import { UserService } from './user.service';
 import { RegisterUserDto, UserLoginDto } from './dto';
-import { ApiBody, ApiResponse, ApiTags } from '@nestjs/swagger';
 
-@ApiTags('用户管理模块')
 @Controller('user')
 export class UserController {
   @Inject(UserService)
@@ -21,17 +18,7 @@ export class UserController {
   /**
    * @description 注册
    */
-  @ApiBody({ type: RegisterUserDto })
-  @ApiResponse({
-    status: HttpStatus.OK,
-    description: '注册成功/失败',
-    type: String
-  })
-  @ApiResponse({
-    status: HttpStatus.BAD_REQUEST,
-    description: '验证码已失效/验证码不正确/用户已存在',
-    type: String
-  })
+
   @Post('register')
   async register(@Body() registerUser: RegisterUserDto) {
     return this.userService.register(registerUser);
