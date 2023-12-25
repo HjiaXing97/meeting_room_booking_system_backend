@@ -41,11 +41,19 @@ export class MeetingRoomService {
   async meetingPageList(body: any) {
     const { param, pageInfo } = formatSearch(body);
 
-    const total = await this.prisma.meeting_Room.count();
+    const total = await this.prisma.meeting_Room.count({
+      where: {
+        is_delete: false
+      }
+    });
     const meetingList = await this.prisma.meeting_Room.findMany({
       ...pageInfo,
       where: {
-        ...param
+        ...param,
+        is_delete: false
+      },
+      orderBy: {
+        create_time: 'desc'
       }
     });
 
@@ -53,5 +61,16 @@ export class MeetingRoomService {
       record: meetingList,
       total
     };
+  }
+
+  async deleteMeeting(id: number) {
+    return await this.prisma.meeting_Room.update({
+      where: {
+        id
+      },
+      data: {
+        is_delete: true
+      }
+    });
   }
 }

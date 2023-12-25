@@ -1,4 +1,4 @@
-import { IsNotEmpty } from 'class-validator';
+import { IsNotEmpty, IsNumber } from 'class-validator';
 
 export class MeetingRoomDto {
   @IsNotEmpty({
@@ -8,6 +8,7 @@ export class MeetingRoomDto {
   @IsNotEmpty({
     message: '容纳人数不能为空'
   })
+  @IsNumber({})
   capacity: number;
   @IsNotEmpty({
     message: '会议室位置不能为空'
