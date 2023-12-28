@@ -5,6 +5,7 @@ import { APP_GUARD } from '@nestjs/core';
 import { UserModule } from '@/module/user/user.module';
 import { PrismaModule } from './prisma/prisma.module';
 import { DictModule } from './module/dict/dict.module';
+import { BookingModule } from './module/booking/booking.module';
 import { MeetingRoomModule } from './module/meeting-room/meeting-room.module';
 import { LoginGuard } from './guard/login.guard';
 
@@ -14,13 +15,14 @@ import { LoginGuard } from './guard/login.guard';
     PrismaModule,
     MeetingRoomModule,
     DictModule,
+    BookingModule,
     JwtModule.registerAsync({
       global: true,
       useFactory() {
         return {
           secret: 'huang',
           signOptions: {
-            expiresIn: '1h'
+            expiresIn: '12h'
           }
         };
       }

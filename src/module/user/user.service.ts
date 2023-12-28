@@ -57,7 +57,7 @@ export class UserService {
         username: user.username
       },
       {
-        expiresIn: '1h'
+        expiresIn: '12h'
       }
     );
     return user;

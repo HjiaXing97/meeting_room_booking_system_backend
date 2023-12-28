@@ -15,8 +15,14 @@ export class DictController {
   async addFields(@Body() body: any) {
     await this.dictService.addFields(body);
   }
-  @Get(':id')
-  async getDict(@Param('id') id: string) {
-    return await this.dictService.getDict(id);
+
+  @Get(':code')
+  async getDict(@Param('code') code: string) {
+    return await this.dictService.getDict(code);
+  }
+
+  @Post('list')
+  async getDictList(@Body() body: any) {
+    return await this.dictService.getDiceList(body);
   }
 }

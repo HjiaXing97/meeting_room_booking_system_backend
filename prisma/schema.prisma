@@ -23,6 +23,7 @@ model User {
   create_time  DateTime    @default(now())
   update_time  DateTime    @updatedAt
   role         User_Role[]
+  booking      booking[]
 }
 
 model Role {
@@ -56,21 +57,23 @@ model User_Role {
 }
 
 model Meeting_Room {
-  id          Int      @id @default(autoincrement())
-  name        String   @unique // 会议室名称
+  id          Int       @id @default(autoincrement())
+  name        String    @unique // 会议室名称
   capacity    Int // 容纳人数
   location    String //位置
   equipment   String //设备
   description String // 描述
-  is_booked   Boolean  @default(false) //是否被预定
-  is_delete   Boolean  @default(false)
-  create_time DateTime @default(now()) //创建时间
-  update_time DateTime @updatedAt //更新时间
+  is_booked   Boolean   @default(false) //是否被预定
+  is_delete   Boolean   @default(false)
+  create_time DateTime  @default(now()) //创建时间
+  update_time DateTime  @updatedAt //更新时间
+  booking     booking[]
 }
 
 model dictionary_type {
   id          Int               @id @default(autoincrement())
   type_name   String            @unique
+  code        String            @unique
   description String
   items       dictionary_item[]
 }
@@ -82,4 +85,18 @@ model dictionary_item {
   description String?
   type_id     Int?
   type        dictionary_type? @relation(fields: [type_id], references: [id])
+}
+
+model booking {
+  id          Int          @id @default(autoincrement())
+  user_id     Int
+  room_id     Int
+  start_time  DateTime
+  end_time    DateTime
+  status      String
+  note        String?
+  create_time DateTime     @default(now())
+  update_time DateTime     @updatedAt
+  room        Meeting_Room @relation(fields: [room_id], references: [id])
+  user        User         @relation(fields: [user_id], references: [id])
 }

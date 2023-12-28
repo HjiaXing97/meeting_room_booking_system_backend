@@ -1,4 +1,5 @@
 import { PrismaService } from '@/prisma/prisma.service';
+import formatSearch from '@/utils/formatSearch';
 import { HttpException, HttpStatus, Inject, Injectable } from '@nestjs/common';
 
 @Injectable()
@@ -9,7 +10,8 @@ export class DictService {
   async createDict(body: any) {
     const dictItem = await this.prisma.dictionary_type.findUnique({
       where: {
-        type_name: body.type_name
+        type_name: body.type_name,
+        code: body.code
       }
     });
 
@@ -32,14 +34,32 @@ export class DictService {
     return await this.prisma.batchAddition(operations);
   }
 
-  async getDict(id: string) {
+  async getDict(code: string) {
     return await this.prisma.dictionary_type.findUnique({
       where: {
-        id: Number(id)
+        code
       },
       include: {
         items: true
       }
     });
+  }
+
+  async getDiceList(body: any) {
+    const { pageInfo, param } = formatSearch(body);
+
+    const total = await this.prisma.dictionary_type.count();
+
+    const dictList = await this.prisma.dictionary_type.findMany({
+      ...pageInfo,
+      where: {
+        ...param
+      }
+    });
+
+    return {
+      total,
+      record: dictList
+    };
   }
 }
