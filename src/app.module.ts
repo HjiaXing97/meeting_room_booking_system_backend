@@ -6,6 +6,7 @@ import { UserModule } from '@/module/user/user.module';
 import { PrismaModule } from './prisma/prisma.module';
 import { DictModule } from './module/dict/dict.module';
 import { BookingModule } from './module/booking/booking.module';
+import { RoleModule } from '@/module/role/role.module';
 import { MeetingRoomModule } from './module/meeting-room/meeting-room.module';
 import { LoginGuard } from './guard/login.guard';
 
@@ -16,6 +17,7 @@ import { LoginGuard } from './guard/login.guard';
     MeetingRoomModule,
     DictModule,
     BookingModule,
+    RoleModule,
     JwtModule.registerAsync({
       global: true,
       useFactory() {
